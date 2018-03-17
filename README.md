@@ -27,5 +27,6 @@ After finishing task, please send us the GitHub repository link.
 Good Luck :)
 
 **Usage instructions**
-1. Install dependencies using _php composer.phar install_
-2. Run BDD (behat) tests using: _bin/behat_ 
+1. create _.env_ file using _.env.dist_
+2. Install dependencies using _php composer.phar install_
+3. Run BDD (behat) tests using: _bin/behat_ 
