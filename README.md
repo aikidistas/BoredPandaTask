@@ -25,3 +25,7 @@ MVC structure;
 GitHub;
 After finishing task, please send us the GitHub repository link.
 Good Luck :)
+
+**Usage instructions**
+1. Install dependencies using _php composer.phar install_
+2. Run BDD (behat) tests using: _bin/behat_ 
