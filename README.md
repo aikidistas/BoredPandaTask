@@ -33,4 +33,5 @@ Good Luck :)
 
 **scraper commands**
 1. bin/console app:scrape-video VIDEO_ID_HERE
+1. bin/console app:scrape-channel CHANNEL_ID_HERE
 
