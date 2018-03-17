@@ -1,6 +1,14 @@
 {
+    "name": "aikidistas/BoredPandaTask",
+    "description": "BoredPanda interview task 2018-03",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nerijus Vaiciulis",
+            "email": "aikidistas@gmail.com"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "ext-iconv": "*",
@@ -11,13 +19,15 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "symfony/dotenv": "^4.0"
+        "symfony/dotenv": "^4.0",
+        "behat/behat": "3.2.x-dev"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "bin-dir": "bin"
     },
     "autoload": {
         "psr-4": {
