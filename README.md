@@ -30,3 +30,7 @@ Good Luck :)
 1. create _.env_ file using _.env.dist_
 2. Install dependencies using _php composer.phar install_
 3. Run BDD (behat) tests using: _bin/behat_ 
+
+**scraper commands**
+1. bin/console app:scrape-video
+
