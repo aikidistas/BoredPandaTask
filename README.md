@@ -32,5 +32,5 @@ Good Luck :)
 3. Run BDD (behat) tests using: _bin/behat_ 
 
 **scraper commands**
-1. bin/console app:scrape-video
+1. bin/console app:scrape-video VIDEO_ID_HERE
 
