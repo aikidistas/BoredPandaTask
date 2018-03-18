@@ -28,6 +28,6 @@ class ScrapeChannelCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("You are trying to download youtube video statistics for a given channel. This feature is not yet implemented");
-        $output->writeln("Downloadable channel ID:" . $input->getArgument("channelId"));
+        $output->writeln("Downloading videos from channel ID: " . $input->getArgument("channelId"));
     }
 }

@@ -30,6 +30,6 @@ class ScrapeVideoCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("You are trying to download youtube video statistics. This feature is not yet implemented");
-        $output->writeln("Downloadable video ID:" . $input->getArgument("videoId"));
+        $output->writeln("Downloading video ID: " . $input->getArgument("videoId"));
     }
 }
