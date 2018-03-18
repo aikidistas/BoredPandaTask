@@ -31,6 +31,8 @@ Good Luck :)
 2. Install dependencies using _php composer.phar install_
 3. Run BDD (behat) tests using: _bin/behat_ 
 4. Run phpUnit tests using: _bin/simple-phpunit_
+5. Run server using: _bin/console server:start_
+
 
 **scraper commands**
 1. bin/console app:scrape-video VIDEO_ID_HERE
