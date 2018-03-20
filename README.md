@@ -26,15 +26,18 @@ GitHub;
 After finishing task, please send us the GitHub repository link.
 Good Luck :)
 
-**Usage instructions**
-1. create _.env_ file using _.env.dist_
-2. Install dependencies using _php composer.phar install_
-3. Run BDD (behat) tests using: _bin/behat_ 
-4. Run phpUnit tests using: _bin/simple-phpunit_
-5. Run server using: _bin/console server:start_
+**Set Up instructions**
+1. create `.env_ file using _.env.dist`
+2. Install dependencies using `php composer.phar install`
+3. Run BDD (behat) tests using: `bin/behat`
+4. Run phpUnit tests using: `bin/simple-phpunit`
+5. Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
+5.1 Look code coverage in the browser`coverage/index.html`
+5. Run web server using: `bin/console server:start`
 
 
-**scraper commands**
-1. bin/console app:scrape-video VIDEO_ID_HERE
-1. bin/console app:scrape-channel CHANNEL_ID_HERE
+**Usage instructions. Scraper commands**
+1. `bin/console app:scrape-video VIDEO_ID_HERE`\
+1.1 Example: `bin/console app:scrape-video Ks-_Mh1QhMc` 
+1. `bin/console app:scrape-channel CHANNEL_ID_HERE`
 
