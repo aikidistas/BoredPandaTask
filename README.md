@@ -41,3 +41,5 @@ Good Luck :)
 1.1 Example: `bin/console app:scrape-video Ks-_Mh1QhMc` 
 1. `bin/console app:scrape-channel CHANNEL_ID_HERE`
 
+**Notes**
+1. Asumed that only uploaded videos in the channel need to be scraped. Possible to add also other playlists in the channel. Should be implemented separately.

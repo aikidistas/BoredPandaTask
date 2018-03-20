@@ -70,6 +70,7 @@ class ScrapeVideoCommandTest extends KernelTestCase
         // THEN
         $this->assertContains('Like count: 1234', $output);
     }
+
     public function testCommandReturnsTagsFromYoutubeVideoService()
     {
         // GIVEN
