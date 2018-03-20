@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ScrapeVideoCommand extends Command
 {
     protected $videoService;
-    protected $client;
 
     public function __construct(VideoService $videoService)
     {
