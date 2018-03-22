@@ -86,7 +86,6 @@ class VideoService
     protected function executeListVideos() : Google_Service_YouTube_VideoListResponse
     {
         $part ='statistics,snippet'; // other: contentDetails
-        //$params = array('id' => 'Ks-_Mh1QhMc');
         $params = array('id' => $this->videoId);
         return $this->service->videos->listVideos($part, $params);
     }

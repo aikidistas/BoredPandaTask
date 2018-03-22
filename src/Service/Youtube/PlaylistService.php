@@ -1,13 +1,19 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: aikidistas
+ * Date: 2018-03-21
+ * Time: 7:45 PM
+ */
 
 namespace App\Service\Youtube;
 
 use Google_Service_YouTube;
 use BadFunctionCallException;
-use Google_Service_YouTube_ChannelListResponse;
+use Google_Service_YouTube_PlaylistListResponse;
 use App\Exception\YoutubeNotFoundException;
 
-class ChannelService
+class PlaylistService
 {
     protected $service;
     protected $channelId = null;
@@ -28,27 +34,34 @@ class ChannelService
     /**
      * @throws YoutubeNotFoundException
      * */
-    public function getUploadedVideoPlaylistId() : string
+    public function getPlaylistIdArray() : array
     {
         if (is_null($this->channelId)) {
-            throw new BadFunctionCallException("You need to setChannelId() before calling getUploadedVideoPlaylistId");
+            throw new BadFunctionCallException("You need to setChannelId() before calling getPlaylistIdArray");
         }
 
         if (is_null($this->response)) {
-            $this->response = $this->executeListChannels();
+            $this->response = $this->executeListPlaylists();
         }
 
         if (!is_array($this->response->getItems()) || sizeof($this->response->getItems()) === 0) {
             throw new YoutubeNotFoundException();
         }
 
-        return $this->response->getItems()[0]->getContentDetails()->getRelatedPlaylists()->getUploads();
+        $playlistIdArray = array();
+
+        foreach ($this->response->getItems() as $playlist) {
+            $playlistIdArray[] = $playlist->getId();
+        }
+
+        return $playlistIdArray;
+//        return $this->response->getItems()->getId();
     }
 
-    protected function executeListChannels() : Google_Service_YouTube_ChannelListResponse
+    protected function executeListPlaylists() : Google_Service_YouTube_PlaylistListResponse
     {
         $part ='contentDetails'; // other: statistics,snippet
-        $params = array('id' => $this->channelId);
-        return $this->service->channels->listChannels($part, $params);
+        $params = array('channelId' => $this->channelId);
+        return $this->service->playlists->listPlaylists($part, $params);
     }
 }

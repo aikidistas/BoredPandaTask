@@ -54,7 +54,7 @@ class ScrapeChannelCommandTest extends KernelTestCase
     {
         // GIVEN
         $expectedVideoIdText = 'firstId, secondId, thirdId';
-        $this->channelServiceMock->method("getVideoIdListAsText")->willReturn($expectedVideoIdText);
+        $this->channelServiceMock->method("getUploadedVideoIdListAsText")->willReturn($expectedVideoIdText);
 
         // WHEN
         $this->commandTester->execute(array(

@@ -1,7 +1,11 @@
 <?php
 namespace App\Command;
 
+use App\Exception\YoutubeNotFoundException;
 use App\Service\Youtube\ChannelService;
+use App\Service\Youtube\PlaylistItemsService;
+use App\Service\Youtube\PlaylistService;
+use App\Service\Youtube\VideoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,12 +14,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ScrapeChannelCommand extends Command
 {
     protected $channelService;
+    protected $playlistItemsService;
+    protected $playlistService;
+    protected $videoService;
 
-    public function __construct(ChannelService $channelService)
+    public function __construct(ChannelService $channelService, PlaylistItemsService $playlistItemsService,
+                                PlaylistService $playlistService, VideoService $videoService)
     {
         parent::__construct();
 
         $this->channelService = $channelService;
+        $this->playlistItemsService = $playlistItemsService;
+        $this->playlistService = $playlistService;
+        $this->videoService = $videoService;
     }
 
     protected function configure()
@@ -35,12 +46,42 @@ class ScrapeChannelCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $channelId = $input->getArgument("channelId");
-        $output->writeln("You are trying to download youtube video statistics for a given channel. This feature is not yet implemented");
-        $output->writeln("Downloading videos from channel ID: " . $channelId);
+        $output->writeln("Downloading videos statistics from channel ID: " . $channelId);
+        $output->writeln("");
 
         $this->channelService->setChannelId($channelId);
-        $videoIdListText = $this->channelService->getVideoIdListAsText();
 
-        $output->writeln("List of uploaded videos ID in channel: " . $videoIdListText);
+        $this->playlistService->setChannelId($channelId);
+        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
+
+        foreach ($playlistsIdArray as $playlistId) {
+            $output->writeln("Channel playlist ID: " . $playlistId);
+            $this->playlistItemsService->setPlaylistId($playlistId);
+            $videoIdListText = $this->playlistItemsService->getVideoIdListAsText();
+            $output->writeln("List of Video ID in playlist: " . $videoIdListText);
+
+            $videoIdArray = $this->playlistItemsService->getVideoIdArray();
+            foreach ($videoIdArray as $videoId) {
+                $this->videoService->setVideoId($videoId);
+                try {
+                    $videoTagsText = $this->videoService->getTagsInline();
+                    $videoLikeCount = $this->videoService->getLikeCount();
+                    $output->writeln("");
+                    $output->writeln("Video ID: " . $videoId);
+                    $output->writeln("Like count: " . $videoLikeCount);
+                    $output->writeln("Tags: " . $videoTagsText);
+                } catch (YoutubeNotFoundException $e) {
+                    $output->writeln("");
+                    $output->writeln("Video ID: ". $videoId . ". NOT FOUND!");
+                    // just skip not found video in this demo application.
+                    // Would log it in real life
+                }
+            }
+        }
+//        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
+//        $output->writeln("Channel uploads playlist ID: " . $uploadsPlaylistId);
+
+
+
     }
 }
