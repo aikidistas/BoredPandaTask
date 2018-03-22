@@ -15,17 +15,17 @@ class ScrapeChannelCommand extends Command
 {
     protected $channelService;
     protected $playlistItemsService;
-    protected $playlistService;
+//    protected $playlistService;
     protected $videoService;
 
     public function __construct(ChannelService $channelService, PlaylistItemsService $playlistItemsService,
-                                PlaylistService $playlistService, VideoService $videoService)
+                                /*PlaylistService $playlistService, */VideoService $videoService)
     {
         parent::__construct();
 
         $this->channelService = $channelService;
         $this->playlistItemsService = $playlistItemsService;
-        $this->playlistService = $playlistService;
+//        $this->playlistService = $playlistService;
         $this->videoService = $videoService;
     }
 
@@ -50,14 +50,15 @@ class ScrapeChannelCommand extends Command
         $output->writeln("");
 
         $this->channelService->setChannelId($channelId);
-        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
+        try {
+            $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
 
 //        $this->playlistService->setChannelId($channelId);
 //        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
 
 //        foreach ($playlistsIdArray as $playlistId) {
-        $playlistId = $uploadsPlaylistId;
-            $output->writeln("Channel playlist ID: " . $playlistId);
+            $playlistId = $uploadsPlaylistId;
+            $output->writeln("Channel uploads playlist ID: " . $playlistId);
             $this->playlistItemsService->setPlaylistId($playlistId);
             $videoIdListText = $this->playlistItemsService->getVideoIdListAsText();
             $output->writeln("List of Video ID in playlist: " . $videoIdListText);
@@ -74,7 +75,7 @@ class ScrapeChannelCommand extends Command
                     $output->writeln("Tags: " . $videoTagsText);
                 } catch (YoutubeNotFoundException $e) {
                     $output->writeln("");
-                    $output->writeln("Video ID: ". $videoId . ". NOT FOUND!");
+                    $output->writeln("Video ID: " . $videoId . ". NOT FOUND!");
                     // this could be a private video in the playlist that you can't see
                     // just skip not found video in this demo application.
                     // Would log it in real life
@@ -84,5 +85,8 @@ class ScrapeChannelCommand extends Command
 
 //        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
 //        $output->writeln("Channel uploads playlist ID: " . $uploadsPlaylistId);
+        } catch (YoutubeNotFoundException $e) {
+            $output->writeln("Uploads playlist not found in the cahnnel");
+        }
     }
 }

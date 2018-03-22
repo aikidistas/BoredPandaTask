@@ -9,11 +9,14 @@
 namespace App\Tests\Service\Youtube;
 
 use App\Service\Youtube\ChannelService;
+use App\Exception\YoutubeNotFoundException;
 use Google_Service_YouTube;
 use BadFunctionCallException;
 use Google_Service_YouTube_Resource_Channels;
 use Google_Service_YouTube_ChannelListResponse;
 use Google_Service_YouTube_Channel;
+use Google_Service_YouTube_ChannelContentDetails;
+use Google_Service_YouTube_ChannelContentDetailsRelatedPlaylists;
 
 class ChannelServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +37,7 @@ class ChannelServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /* @throws YoutubeNotFoundException */
-    public function testGetLikeCount_throwsException_WhenVideoIdNotSet()
+    public function testGetUploadedVideoPlaylistId_throwsException_WhenChannelIdNotSet()
     {
         // SET UP
         $this->expectException(BadFunctionCallException::class);
@@ -50,33 +53,27 @@ class ChannelServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /* @throws YoutubeNotFoundException */
-    public function testGetLikeCount_returnsLikeCountFromGoogleService()
+    public function testGetUploadedVideoPlaylistId_returnsPlaylistId()
     {
         // SET UP
         $resourceChannelsMock = $this->createMock(Google_Service_YouTube_Resource_Channels::class);
-        $responseMock = $this->createMock(Google_Service_YouTube_ChannelListResponse::class);
-        $responseChannelItemMock = $this->createMock(Google_Service_YouTube_Channel::class);
-//        $responseVideoStatisticsMock = $this->createMock(Google_Service_YouTube_VideoStatistics::class);
         $this->youtubeServiceMock->channels = $resourceChannelsMock;
-
+        $responseMock = $this->createMock(Google_Service_YouTube_ChannelListResponse::class);
         $resourceChannelsMock->method('listChannels')->willReturn($responseMock);
+
+        $responseChannelItemMock = $this->createMock(Google_Service_YouTube_Channel::class);
         $responseMock->method('getItems')->willReturn(array($responseChannelItemMock));
-//        $responseChannelItemMock->method('getStatistics')->willReturn($responseVideoStatisticsMock);
 
-        /*
-         *  "items": [
-  {
+        $responseChannelDetailsMock = $this->createMock(Google_Service_YouTube_ChannelContentDetails::class);
+        $responseChannelItemMock->method('getContentDetails')->willReturn($responseChannelDetailsMock);
+
+        $responseRelatedPlaylistsMock = $this->createMock(Google_Service_YouTube_ChannelContentDetailsRelatedPlaylists::class);
+        $responseChannelDetailsMock->method('getRelatedPlaylists')->willReturn($responseRelatedPlaylistsMock);
 
 
-   "kind": "youtube#channel",
-   "etag": "\"RmznBCICv9YtgWaaa_nWDIH1_GM/OWPMdSRlXQKVMpuGJHLcZMfaauk\"",
-   "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
-   "contentDetails": {
-    "relatedPlaylists": {
-     "uploads": "UU_x5XG1OV2P6uZZ5FSM9Ttw",
-         * */
         // GIVEN
-        $expectedPlaylistId = 'PLAYLIST_ID_FOR_TEST';
+        $expectedPlaylistId = 'UPLOADS_PLAYLIST_ID_FOR_TEST';
+        $responseRelatedPlaylistsMock->method('getUploads')->willReturn($expectedPlaylistId);
         //$responseVideoStatisticsMock->method('getLikeCount')->willReturn($expectedLikeCount);
         $this->channelService->setChannelId("VIDEO_ID");
 
