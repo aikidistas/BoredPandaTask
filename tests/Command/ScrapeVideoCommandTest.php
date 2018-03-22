@@ -4,6 +4,7 @@ namespace App\Tests\Command;
 
 use App\Command\ScrapeVideoCommand;
 use App\Service\Youtube\VideoService;
+use App\Exception\YoutubeNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -86,5 +87,23 @@ class ScrapeVideoCommandTest extends KernelTestCase
 
         // THEN
         $this->assertContains('Tags: Tag1, Tag2, Best video tag 3', $output);
+    }
+
+    public function testCommandOutputsError_OnWrongVideoId()
+    {
+        // GIVEN
+        $this->videoServiceMock->method("getTagsInline")->will($this->throwException(new YoutubeNotFoundException()));
+
+        // WHEN
+        $this->commandTester->execute(array(
+            'command'  => $this->commandName,
+            'videoId' => 'VIDEO_ID_FROM_TEST',
+        ));
+        // the output of the command in the console
+        $output = $this->commandTester->getDisplay();
+
+        // THEN
+        $expectedOutput = 'ERROR: Video with video ID: VIDEO_ID_FROM_TEST is not found';
+        $this->assertContains($expectedOutput, $output);
     }
 }

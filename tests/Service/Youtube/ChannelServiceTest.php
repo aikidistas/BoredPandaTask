@@ -83,4 +83,27 @@ class ChannelServiceTest extends \PHPUnit_Framework_TestCase
         // THEN
         $this->assertEquals($expectedPlaylistId, $actualPlaylistId, "Wrong playlistId returned from ChannelService");
     }
+
+
+    /* @throws YoutubeNotFoundException */
+    public function testGetUploadedVideoPlaylistId_returnsZeroItemsFoundFromGoogleService()
+    {
+        // SET UP
+        $resourceChannelsMock = $this->createMock(Google_Service_YouTube_Resource_Channels::class);
+        $responseMock = $this->createMock(Google_Service_YouTube_ChannelListResponse::class);
+        $this->youtubeServiceMock->channels = $resourceChannelsMock;
+        $resourceChannelsMock->method('listChannels')->willReturn($responseMock);
+        $this->channelService->setChannelId("CHANNEL_ID");
+
+        $this->expectException(YoutubeNotFoundException::class);
+
+        // GIVEN
+        $responseMock->method('getItems')->willReturn(array());
+
+        // WHEN
+        $this->channelService->getUploadedVideoPlaylistId();
+
+        // THEN
+        // not found exception is thrown
+    }
 }

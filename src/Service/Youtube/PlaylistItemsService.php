@@ -10,7 +10,7 @@ namespace App\Service\Youtube;
 
 use Google_Service_YouTube;
 use Google_Service_Youtube_PlaylistItem;
-use App\Exception\BadFunctionCallException;
+use BadFunctionCallException;
 use App\Exception\YoutubeNotFoundException;
 
 class PlaylistItemsService
@@ -34,22 +34,19 @@ class PlaylistItemsService
     public function getVideoIdArray() : array
     {
         if (is_null($this->playlistId)) {
-            throw new BadFunctionCallException("You need to setChannelId() before calling getUploadedVideoPlaylistId");
+            throw new BadFunctionCallException("You need to setPlaylistId() before calling getVideoIdArray");
         }
 
         if (is_null($this->response)) {
             $this->response = $this->executeListPlaylistItems();
         }
 
-//        var_dump($this->response);
         $videoIdArray = array();
         foreach ($this->response->getItems() as $playlistItem)
         {
-//            var_dump($playlistItem);
             $videoIdArray[] = $playlistItem->getContentDetails()->getVideoId();
         }
         return $videoIdArray;
-        // $this->response->getItems()[0]->getContentDetails()->getVideoId();
     }
 
     public function getVideoIdListAsText() : string
