@@ -33,13 +33,15 @@ Good Luck :)
 4. Run phpUnit tests using: `bin/simple-phpunit`
 5. Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
 5.1 Look code coverage in the browser`coverage/index.html`
-5. Run web server using: `bin/console server:start`
+6. Run web server using: `bin/console server:start`
 
 
 **Usage instructions. Scraper commands**
 1. `bin/console app:scrape-video VIDEO_ID_HERE`\
 1.1 Example: `bin/console app:scrape-video Ks-_Mh1QhMc` 
-1. `bin/console app:scrape-channel CHANNEL_ID_HERE`
+2. `bin/console app:scrape-channel CHANNEL_ID_HERE`\
+2.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
+
 
 **Notes**
 1. Asumed that only uploaded videos in the channel need to be scraped. Possible to add also other playlists in the channel. Should be implemented separately.

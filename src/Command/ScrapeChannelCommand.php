@@ -50,11 +50,13 @@ class ScrapeChannelCommand extends Command
         $output->writeln("");
 
         $this->channelService->setChannelId($channelId);
+        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
 
-        $this->playlistService->setChannelId($channelId);
-        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
+//        $this->playlistService->setChannelId($channelId);
+//        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
 
-        foreach ($playlistsIdArray as $playlistId) {
+//        foreach ($playlistsIdArray as $playlistId) {
+        $playlistId = $uploadsPlaylistId;
             $output->writeln("Channel playlist ID: " . $playlistId);
             $this->playlistItemsService->setPlaylistId($playlistId);
             $videoIdListText = $this->playlistItemsService->getVideoIdListAsText();
@@ -73,15 +75,14 @@ class ScrapeChannelCommand extends Command
                 } catch (YoutubeNotFoundException $e) {
                     $output->writeln("");
                     $output->writeln("Video ID: ". $videoId . ". NOT FOUND!");
+                    // this could be a private video in the playlist that you can't see
                     // just skip not found video in this demo application.
                     // Would log it in real life
                 }
             }
-        }
+//        }
+
 //        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
 //        $output->writeln("Channel uploads playlist ID: " . $uploadsPlaylistId);
-
-
-
     }
 }

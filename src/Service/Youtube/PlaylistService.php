@@ -31,9 +31,6 @@ class PlaylistService
         $this->response = null;
     }
 
-    /**
-     * @throws YoutubeNotFoundException
-     * */
     public function getPlaylistIdArray() : array
     {
         if (is_null($this->channelId)) {
@@ -42,10 +39,6 @@ class PlaylistService
 
         if (is_null($this->response)) {
             $this->response = $this->executeListPlaylists();
-        }
-
-        if (!is_array($this->response->getItems()) || sizeof($this->response->getItems()) === 0) {
-            throw new YoutubeNotFoundException();
         }
 
         $playlistIdArray = array();
