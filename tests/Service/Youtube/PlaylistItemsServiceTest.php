@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aikidistas
- * Date: 2018-03-21
- * Time: 5:33 PM
- */
 
 namespace App\Tests\Service\Youtube;
 
