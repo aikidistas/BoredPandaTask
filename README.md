@@ -28,13 +28,17 @@ Good Luck :)
 
 **Set Up instructions**
 1. Create `.env_ file using _.env.dist`
-2. Configure the driver (mysql) and server_version (5.7) in `config/packages/doctrine.yaml`
-3. Install dependencies using `php composer.phar install`
-4. Run BDD (behat) tests using: `bin/behat`
-5. Run phpUnit tests using: `bin/simple-phpunit`
-6. Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
-6.1 Look code coverage in the browser`coverage/index.html`
-6. Run web server using: `bin/console server:start`
+2. Install dependencies using `php composer.phar install`
+3. Database:\
+3.1 Configure the driver (mysql) and server_version (5.7) in `config/packages/doctrine.yaml`\
+3.2 Create database specified in `.env` by running: `php bin/console doctrine:database:create`
+4. Tests:\
+4.1 Run BDD (behat) tests using: `bin/behat`\
+4.2 Run phpUnit tests using: `bin/simple-phpunit`\
+4.3 Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
+4.4 Look code coverage in the browser`coverage/index.html`
+5. Run web server using: `bin/console server:start`
+
 
 
 **Usage instructions. Scraper commands**
