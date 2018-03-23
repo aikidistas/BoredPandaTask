@@ -30,7 +30,7 @@ Good Luck :)
 1. Create `.env_ file using _.env.dist`
 2. Install dependencies using `php composer.phar install`
 3. Database:\
-3.1 Configure the driver (mysql) and server_version (5.7) in `config/packages/doctrine.yaml`\
+3.1 Configure the driver (mysql) and server_version (5.6) in `config/packages/doctrine.yaml`\
 3.2 Create database specified in `.env` by running: `php bin/console doctrine:database:create`\
 3.3 Create tables and demo data by running: `php bin/console doctrine:migrations:migrate`
 4. Tests:\
@@ -38,7 +38,7 @@ Good Luck :)
 4.2 Run phpUnit tests using: `bin/simple-phpunit`\
 4.3 Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
 4.4 Look code coverage in the browser`coverage/index.html`
-5. Run web server using: `bin/console server:start`
+5. Run web server using: `bin/console server:run`
 
 **Usage instructions. Scraper commands**
 1. `bin/console app:scrape-video VIDEO_ID_HERE`\
@@ -47,6 +47,9 @@ Good Luck :)
 2.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
 
 **Notes**
+
+**TODO: remove files from bin folder, that will be installed by composer**
+
 1. Asumed that only uploaded videos in the channel need to be scraped. Possible to add also other playlists in the channel. Should be implemented separately.
 
 **temporary info:**\

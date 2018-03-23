@@ -2,6 +2,7 @@
 /coverage/
 
 ###> symfony/framework-bundle ###
+/bin/
 .env
 /public/bundles/
 /var/
