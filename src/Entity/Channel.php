@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ChannelRepository")
@@ -13,18 +15,14 @@ class Channel
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(type="string", length=24)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $externalChannelId;
-
-    /**
      * @ORM\Column(type="string", length=100)
+     *
      */
     private $title;
 
@@ -38,9 +36,12 @@ class Channel
      */
     private $uploadedVideos;
 
-    public function __construct()
+    public function __construct(?string $id)
     {
         $this->uploadedVideos = new ArrayCollection();
+        if (isset($id)) {
+            $this->setId($id);
+        }
     }
 
     public function getId()
@@ -48,14 +49,9 @@ class Channel
         return $this->id;
     }
 
-    public function getExternalChannelId(): ?string
+    public function setId(string $id): self
     {
-        return $this->externalChannelId;
-    }
-
-    public function setExternalChannelId(string $externalChannelId): self
-    {
-        $this->externalChannelId = $externalChannelId;
+        $this->id = $id;
 
         return $this;
     }
@@ -96,7 +92,7 @@ class Channel
     {
         if (!$this->uploadedVideos->contains($uploadedVideo)) {
             $this->uploadedVideos[] = $uploadedVideo;
-            $uploadedVideo->setChannelId($this);
+            $uploadedVideo->setChannel($this);
         }
 
         return $this;
@@ -107,8 +103,8 @@ class Channel
         if ($this->uploadedVideos->contains($uploadedVideo)) {
             $this->uploadedVideos->removeElement($uploadedVideo);
             // set the owning side to null (unless already changed)
-            if ($uploadedVideo->getChannelId() === $this) {
-                $uploadedVideo->setChannelId(null);
+            if ($uploadedVideo->getChannel() === $this) {
+                $uploadedVideo->setChannel(null);
             }
         }
 
