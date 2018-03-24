@@ -29,7 +29,7 @@ class Channel
     /**
      * @ORM\Column(type="string", length=34)
      */
-    private $externalUploadsPlaylistId;
+    private $uploadsPlaylistId;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="channelId", orphanRemoval=true)
@@ -61,14 +61,14 @@ class Channel
         return $this;
     }
 
-    public function getExternalUploadsPlaylistId(): ?string
+    public function getUploadsPlaylistId(): ?string
     {
-        return $this->externalUploadsPlaylistId;
+        return $this->uploadsPlaylistId;
     }
 
-    public function setExternalUploadsPlaylistId(string $externalUploadsPlaylistId): self
+    public function setUploadsPlaylistId(string $uploadsPlaylistId): self
     {
-        $this->externalUploadsPlaylistId = $externalUploadsPlaylistId;
+        $this->uploadsPlaylistId = $uploadsPlaylistId;
 
         return $this;
     }

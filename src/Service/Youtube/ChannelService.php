@@ -34,7 +34,7 @@ class ChannelService
 
         $channel = new Channel($this->channelId);
         try {
-            $channel->setExternalUploadsPlaylistId(
+            $channel->setUploadsPlaylistId(
                 $this->getUploadedVideoPlaylistId()
             );
         } catch (YoutubeNotFoundException $e) {

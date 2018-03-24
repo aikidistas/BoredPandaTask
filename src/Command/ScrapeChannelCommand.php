@@ -53,7 +53,7 @@ class ScrapeChannelCommand extends Command
 
         $channel = $this->channelService->getChannelEntity();
         try {
-            $uploadsPlaylistId = $channel->getExternalUploadsPlaylistId();
+            $uploadsPlaylistId = $channel->getUploadsPlaylistId();
 
 //        $this->playlistService->setChannelId($channelId);
 //        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
