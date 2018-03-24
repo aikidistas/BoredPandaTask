@@ -40,20 +40,13 @@ class Channel
     {
         $this->uploadedVideos = new ArrayCollection();
         if (isset($id)) {
-            $this->setId($id);
+            $this->id = $id;
         }
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getTitle(): ?string

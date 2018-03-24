@@ -37,7 +37,7 @@ class Video
     public function __construct(?string $id)
     {
         if (isset($id)) {
-            $this->setId($id);
+            $this->id = $id;
         }
         $this->tags = new ArrayCollection();
         $this->versionedLikes = new ArrayCollection();
@@ -46,13 +46,6 @@ class Video
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getChannel(): ?Channel
