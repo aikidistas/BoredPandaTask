@@ -32,7 +32,7 @@ class Channel
     private $uploadsPlaylistId;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="channelId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="channel", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $uploadedVideos;
 

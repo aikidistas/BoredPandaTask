@@ -3,6 +3,8 @@
 namespace App\Service\Youtube;
 
 use App\Entity\Channel;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Google_Service_YouTube;
 use BadFunctionCallException;
 use Google_Service_YouTube_ChannelListResponse;
@@ -12,7 +14,6 @@ class ChannelService
 {
     protected $service;
     protected $channelId = null;
-
     protected $response = null;
 
     public function __construct(Google_Service_YouTube $service)
@@ -26,6 +27,10 @@ class ChannelService
         $this->response = null;
     }
 
+    /**
+     * @return Channel
+     * @throws YoutubeNotFoundException
+     */
     public function getChannelEntity() : Channel
     {
         if (is_null($this->channelId)) {
@@ -33,13 +38,12 @@ class ChannelService
         }
 
         $channel = new Channel($this->channelId);
-        try {
-            $channel->setUploadsPlaylistId(
-                $this->getUploadedVideoPlaylistId()
-            );
-        } catch (YoutubeNotFoundException $e) {
-            // just ignore if uploads channel doesn't exist for this channel
-        }
+        $channel->setUploadsPlaylistId(
+            $this->getUploadedVideoPlaylistId()
+        );
+        $channel->setTitle(
+            $this->getTitle()
+        );
 
         return $channel;
     }

@@ -27,7 +27,7 @@ class VersionedLike
     private $dateTime;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="likes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="versionedLikes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $video;

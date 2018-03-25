@@ -2,9 +2,10 @@
 namespace App\Command;
 
 use App\Exception\YoutubeNotFoundException;
+use App\Service\Scraper\ChannelScraperService;
+use App\Service\Scraper\VideoScraperService;
 use App\Service\Youtube\ChannelService;
 use App\Service\Youtube\PlaylistItemsService;
-use App\Service\Youtube\PlaylistService;
 use App\Service\Youtube\VideoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,20 +14,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ScrapeChannelCommand extends Command
 {
-    protected $channelService;
-    protected $playlistItemsService;
-//    protected $playlistService;
-    protected $videoService;
+    protected $channelScraperService;
+    protected $videoScraperService;
 
-    public function __construct(ChannelService $channelService, PlaylistItemsService $playlistItemsService,
-                                /*PlaylistService $playlistService, */VideoService $videoService)
+    public function __construct(ChannelScraperService $channelScraperService, VideoScraperService $videoScraperService)
     {
         parent::__construct();
 
-        $this->channelService = $channelService;
-        $this->playlistItemsService = $playlistItemsService;
-//        $this->playlistService = $playlistService;
-        $this->videoService = $videoService;
+        $this->channelScraperService = $channelScraperService;
+        $this->videoScraperService = $videoScraperService;
     }
 
     protected function configure()
@@ -47,48 +43,30 @@ class ScrapeChannelCommand extends Command
     {
         $channelId = $input->getArgument("channelId");
         $output->writeln("Downloading videos statistics from channel ID: " . $channelId);
-        $output->writeln("");
 
-        $this->channelService->setChannelId($channelId);
-
-        $channel = $this->channelService->getChannelEntity();
         try {
-            $uploadsPlaylistId = $channel->getUploadsPlaylistId();
+            $channel = $this->channelScraperService->scrapeChannel($channelId);
+            $this->channelScraperService->scrapeChannelPlaylist($channel);
 
-//        $this->playlistService->setChannelId($channelId);
-//        $playlistsIdArray = $this->playlistService->getPlaylistIdArray();
-
-//        foreach ($playlistsIdArray as $playlistId) {
-            $playlistId = $uploadsPlaylistId;
-            $output->writeln("Channel uploads playlist ID: " . $playlistId);
-            $this->playlistItemsService->setPlaylistId($playlistId);
-            $videoIdListText = $this->playlistItemsService->getVideoIdListAsText();
-            $output->writeln("List of Video ID in playlist: " . $videoIdListText);
-
-            $videoIdArray = $this->playlistItemsService->getVideoIdArray();
-            foreach ($videoIdArray as $videoId) {
-                $this->videoService->setVideoId($videoId);
-                try {
-                    $videoTagsText = $this->videoService->getTagsInline();
-                    $videoLikeCount = $this->videoService->getLikeCount();
-                    $output->writeln("");
-                    $output->writeln("Video ID: " . $videoId);
-                    $output->writeln("Like count: " . $videoLikeCount);
-                    $output->writeln("Tags: " . $videoTagsText);
-                } catch (YoutubeNotFoundException $e) {
-                    $output->writeln("");
-                    $output->writeln("Video ID: " . $videoId . ". NOT FOUND!");
-                    // this could be a private video in the playlist that you can't see
-                    // just skip not found video in this demo application.
-                    // Would log it in real life
+            foreach ($channel->getUploadedVideos() as $video)
+            {
+                $output->writeln("");
+                $output->writeln("Video ID: " . $video->getId());
+                $output->writeln("");
+                $output->writeln("Like count: " . $video->getVersionedLikes()->last()->getAmount());
+                $tags = $video->getTags();
+                $tagsArray = [];
+                foreach ($tags as $tag) {
+                    $tagsArray [] = $tag->getText();
                 }
+                $output->writeln("");
+                $output->writeln("Tags: " . implode( ", ", $tagsArray));
             }
-//        }
 
-//        $uploadsPlaylistId = $this->channelService->getUploadedVideoPlaylistId();
-//        $output->writeln("Channel uploads playlist ID: " . $uploadsPlaylistId);
+
+
         } catch (YoutubeNotFoundException $e) {
-            $output->writeln("Uploads playlist not found in the cahnnel");
+            $output->writeln("Could not find information about the channel using youtube api");
         }
     }
 }

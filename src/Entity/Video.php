@@ -25,12 +25,12 @@ class Video
     private $channel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="video", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="video", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\VersionedLike", mappedBy="video", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\VersionedLike", mappedBy="video", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $versionedLikes;
 
