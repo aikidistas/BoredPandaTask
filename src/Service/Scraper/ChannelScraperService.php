@@ -22,12 +22,10 @@ class ChannelScraperService
     protected $channelRepository;
     protected $playlistItemsService;
     protected $videoScraperService;
-    protected $videoService;
     protected $entityManager;
 
     public function __construct(ChannelService $channelService, ChannelRepository $channelRepository,
                                 PlaylistItemsService $playlistItemsService, VideoScraperService $videoScraperService,
-                                VideoService $videoService,
                                 EntityManagerInterface $entityManager)
     {
         $this->channelService = $channelService;
@@ -35,9 +33,6 @@ class ChannelScraperService
         $this->playlistItemsService = $playlistItemsService;
         $this->videoScraperService = $videoScraperService;
         $this->entityManager = $entityManager;
-
-
-        $this->videoService = $videoService;
     }
 
     /**

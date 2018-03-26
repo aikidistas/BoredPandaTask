@@ -12,10 +12,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/DashboardController.php',
-        ]);
+        return $this->render(
+            'dashboard.html.twig', array(
+                'variable' => 'value'
+            ));
     }
 
     public function ajax()
