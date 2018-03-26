@@ -128,6 +128,9 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "pugx/autocompleter-bundle": {
+        "version": "v1.4.1"
+    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {
@@ -136,6 +139,9 @@
             "version": "4.0",
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
+    },
+    "symfony/asset": {
+        "version": "v4.0.6"
     },
     "symfony/cache": {
         "version": "v4.0.6"
