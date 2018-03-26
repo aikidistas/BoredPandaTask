@@ -34,7 +34,7 @@ class Video
      */
     private $versionedLikes;
 
-    public function __construct(?string $id)
+    public function __construct(string $id = null)
     {
         if (isset($id)) {
             $this->id = $id;
