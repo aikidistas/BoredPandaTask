@@ -52,13 +52,4 @@ Good Luck :)
 
 1. Asumed that only uploaded videos in the channel need to be scraped. Possible to add also other playlists in the channel. Should be implemented separately.
 
-**temporary info:**\
-PL_hNADyE5fYAAiS9JYnN_BCgTlY_OU2sE	-	playlist		34\
-									-	playlistTitle	150\
-									\
-UCydKucK3zAWRuHKbB4nJjtw			-	channel			24\
-									-	channelTitle	100\
-									\
-riTQ5m1GaQs							-	video			11\
-\
-VVV5ZEt1Y0szekFXUnVIS2JCNG5KanR3LnpXYW9lX0hDaUNB	playlistitem	48
+
