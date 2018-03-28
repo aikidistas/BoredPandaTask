@@ -34,6 +34,11 @@ class Video
      */
     private $versionedLikes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VersionedView", mappedBy="video", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $versionedViews;
+
     public function __construct(string $id = null)
     {
         if (isset($id)) {
@@ -116,6 +121,37 @@ class Video
             // set the owning side to null (unless already changed)
             if ($like->getVideo() === $this) {
                 $like->setVideo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VersionedLike[]
+     */
+    public function getVersionedViews(): Collection
+    {
+        return $this->versionedViews;
+    }
+
+    public function addVersionedView(VersionedView $view): self
+    {
+        if (!$this->versionedLikes->contains($view)) {
+            $this->versionedViews[] = $view;
+            $view->setVideo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVersionedView(VersionedView $view): self
+    {
+        if ($this->versionedViews->contains($view)) {
+            $this->versionedViews->removeElement($view);
+            // set the owning side to null (unless already changed)
+            if ($view->getVideo() === $this) {
+                $view->setVideo(null);
             }
         }
 

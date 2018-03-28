@@ -54,6 +54,7 @@ class ScrapeChannelCommand extends Command
                 $output->writeln("Video ID: " . $video->getId());
                 $output->writeln("");
                 $output->writeln("Like count: " . $video->getVersionedLikes()->last()->getAmount());
+                $output->writeln("View count: " . $video->getVersionedViews()->last()->getAmount());
                 $tags = $video->getTags();
                 $tagsArray = [];
                 foreach ($tags as $tag) {

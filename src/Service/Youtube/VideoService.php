@@ -4,6 +4,7 @@ namespace App\Service\Youtube;
 
 use App\Entity\Tag;
 use App\Entity\VersionedLike;
+use App\Entity\VersionedView;
 use App\Entity\Video;
 use Google_Service_YouTube;
 use Google_Service_YouTube_VideoListResponse;
@@ -75,6 +76,13 @@ class VideoService
         );
         $video->addVersionedLike($like);
 
+        $view = new VersionedView();
+        $view->setDateTime(new DateTime());
+        $view->setAmount(
+            $this->getViewCount()
+        );
+        $video->addVersionedView($view);
+
         return $video;
     }
 
@@ -132,6 +140,30 @@ class VideoService
         $likeCount = $this->response->getItems()[0]->getStatistics()->getLikeCount();
 
         return $likeCount;
+    }
+
+    /**
+     * @throws YoutubeNotFoundException
+     * @throws BadFunctionCallException
+     * */
+    public function getViewCount() : int
+    {
+        if (is_null($this->videoId)) {
+            throw new BadFunctionCallException("You need to setVideoId() before calling getTags");
+        }
+
+        if (is_null($this->response)) {
+            $this->response = $this->executeListVideos();
+        }
+
+        if (!is_array($this->response->getItems()) || sizeof($this->response->getItems()) === 0)
+        {
+            throw new YoutubeNotFoundException();
+        }
+
+        $viewCount = $this->response->getItems()[0]->getStatistics()->getViewCount();
+
+        return $viewCount;
     }
 
     protected function executeListVideos() : Google_Service_YouTube_VideoListResponse

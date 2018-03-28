@@ -24,6 +24,7 @@ class DashboardController extends Controller
         // +: list videos
         // +: add form to filter videos
         // TODO: add autocomplete tag in form
+        // +: add video watched amount
         // TODO: add video title
 
         $videos = array();
