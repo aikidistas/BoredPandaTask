@@ -46,12 +46,14 @@ class ScrapeChannelCommand extends Command
 
         try {
             $channel = $this->channelScraperService->scrapeChannel($channelId);
+            $output->writeln("Channel Title: " . $channel->getTitle());
             $this->channelScraperService->scrapeChannelPlaylist($channel);
 
             foreach ($channel->getUploadedVideos() as $video)
             {
                 $output->writeln("");
                 $output->writeln("Video ID: " . $video->getId());
+                $output->writeln("Video title: " . $video->getTitle());
                 $output->writeln("");
                 $output->writeln("Like count: " . $video->getVersionedLikes()->last()->getAmount());
                 $output->writeln("View count: " . $video->getVersionedViews()->last()->getAmount());

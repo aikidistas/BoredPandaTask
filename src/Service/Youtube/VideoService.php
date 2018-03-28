@@ -42,6 +42,7 @@ class VideoService
         }
 
         $video = new Video($this->videoId);
+
         $tags = $this->getTags();
         foreach ($tags as $tagText) {
             $tag = new Tag();
@@ -49,14 +50,7 @@ class VideoService
             $video->addTag($tag);
         }
 
-        $like = new VersionedLike();
-        $like->setDateTime(new DateTime());
-        $like->setAmount(
-            $this->getLikeCount()
-        );
-        $video->addVersionedLike($like);
-
-        return $video;
+        return $this->getUpdatedVideoEntity($video);
     }
 
     /**
@@ -65,9 +59,11 @@ class VideoService
      */
     public function getUpdatedVideoEntity(Video $video) : Video
     {
-        $this->setVideoId($video->getId());
+        if (is_null($this->videoId)) {
+            $this->setVideoId($video->getId());
+        }
 
-        // We only update likes. Tags will not be updated. We assume tags don't change, or don't change often enough
+        $video->setTitle($this->getTitle());
 
         $like = new VersionedLike();
         $like->setDateTime(new DateTime());
@@ -82,6 +78,7 @@ class VideoService
             $this->getViewCount()
         );
         $video->addVersionedView($view);
+
 
         return $video;
     }
@@ -116,6 +113,29 @@ class VideoService
     public function getTagsInline() : string
     {
         return implode(", ", $this->getTags());
+    }
+
+    /**
+     * @throws YoutubeNotFoundException
+     * @throws BadFunctionCallException
+     * */
+    public function getTitle() : string
+    {
+        if (is_null($this->videoId)) {
+            throw new BadFunctionCallException("You need to setVideoId() before calling method");
+        }
+
+        if (is_null($this->response)) {
+            $this->response = $this->executeListVideos();
+        }
+
+        if (!is_array($this->response->getItems()) || sizeof($this->response->getItems()) === 0) {
+            throw new YoutubeNotFoundException();
+        }
+
+        $title = $this->response->getItems()[0]->getSnippet()->getTitle();
+
+        return $title;
     }
 
     /**
