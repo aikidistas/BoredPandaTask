@@ -13,7 +13,6 @@ use App\Entity\Video;
 use App\Exception\YoutubeNotFoundException;
 use App\Repository\VideoRepository;
 use App\Service\Youtube\VideoService;
-use App\Service\Youtube\PlaylistItemsService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class VideoScraperService

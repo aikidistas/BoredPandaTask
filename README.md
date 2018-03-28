@@ -38,13 +38,11 @@ Good Luck :)
 4.2 Run phpUnit tests using: `bin/simple-phpunit`\
 4.3 Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
 4.4 Look code coverage in the browser`coverage/index.html`
-5. Run web server using: `bin/console server:run`
+5. Run web server for development using: `bin/console server:run`
 
-**Usage instructions. Scraper commands**
-1. `bin/console app:scrape-video VIDEO_ID_HERE`\
-1.1 Example: `bin/console app:scrape-video Ks-_Mh1QhMc` 
-2. `bin/console app:scrape-channel CHANNEL_ID_HERE`\
-2.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
+**Usage instructions. Scraper command**
+1. `bin/console app:scrape-channel CHANNEL_ID_HERE`\
+1.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
 
 **Notes**
 
