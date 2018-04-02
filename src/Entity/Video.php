@@ -49,6 +49,11 @@ class Video
      */
     private $firstHourViews;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $performance;
+
     public function __construct(string $id = null)
     {
         if (isset($id)) {
@@ -201,6 +206,18 @@ class Video
     private function setFirstHourViews(int $firstHourViews): self
     {
         $this->firstHourViews = $firstHourViews;
+
+        return $this;
+    }
+
+    public function getPerformance(): ?float
+    {
+        return $this->performance;
+    }
+
+    public function setPerformance(?float $performance): self
+    {
+        $this->performance = $performance;
 
         return $this;
     }
