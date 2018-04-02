@@ -18,8 +18,11 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Youtube dashboard</h2>
-    <div>{{ form(form) }}</div>
+    <h2><a href="/">Youtube dashboard</a></h2>
+    <div>
+        {{ form(form) }}
+        <a href="/">Reset filter</a>
+    </div>
     <div>
         {% if videos|length == 0 %}
             <span>No videos found for specified filter. Update your filter to include more results...</span>
