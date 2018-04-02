@@ -1,0 +1,4 @@
+[{% for tag in results -%}
+    {{ {id: tag.id, label: tag.text, value: tag.id}|json_encode|raw }}
+    {%- if not loop.last %},{% endif -%}
+{%- endfor %}]

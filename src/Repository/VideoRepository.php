@@ -36,15 +36,15 @@ class VideoRepository extends ServiceEntityRepository
     /**
      * @return Video[] Returns an array of Video objects
      */
-    public function findByTagAndPerformance($tag = null, $performance = null)
+    public function findByTagAndPerformance($tagId = null, $performance = null)
     {
         $query = $this->createQueryBuilder('v');
 
-        if (!is_null($tag)) {
+        if (!is_null($tagId)) {
             $query
                 ->innerJoin('v.tags', 't')
-                ->andWhere('t.text = :tag')
-                ->setParameter('tag', $tag);
+                ->andWhere('t.id = :tagId')
+                ->setParameter('tagId', $tagId);
         }
 
         if (!is_null($performance)) {
@@ -67,14 +67,14 @@ class VideoRepository extends ServiceEntityRepository
                     SELECT @rownum:=@rownum+1 AS `row_number`, v.first_hour_views
                     FROM video v,  (SELECT @rownum:=0) r
                     WHERE
-                        v.channel_id = :channel_id -- put some where clause here
+                        v.channel_id = :channel_id 
                     ORDER BY v.first_hour_views
                 ) AS t1, 
                 (
                     SELECT count(*) AS total_rows
                     FROM video v
                     WHERE
-                        v.channel_id = :channel_id -- put same where clause here
+                        v.channel_id = :channel_id
                 ) AS t2
                 WHERE 1
                 AND t1.row_number in ( floor((total_rows+1)/2), floor((total_rows+2)/2) );

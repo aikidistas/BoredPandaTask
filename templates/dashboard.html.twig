@@ -3,6 +3,7 @@
 {% block title %}BoredPanda Youtube dashboard{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 {% endblock %}
 {% block javascripts %}
     <!--bootstrap-->
@@ -12,7 +13,7 @@
     <!--autocomplete-->
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
+    <script src="{{ asset('js/autocompleter-jqueryui.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}
 
