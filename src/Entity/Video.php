@@ -133,7 +133,7 @@ class Video
         $lastView = $view;
         $timeDiff = $firstView->getDateTime()->diff($lastView->getDateTime());
         if ($timeDiff->y === 0 and $timeDiff->m === 0 and $timeDiff->d === 0 and
-            ($timeDiff->h < 1 or ($timeDiff->h = 1 and $timeDiff->m <= 1)))
+            ($timeDiff->h < 1 or ($timeDiff->h === 1 and $timeDiff->i <= 1)))
         {
             $firstHourViewsAmount = $lastView->getAmount() - $firstView->getAmount();
             $this->setFirstHourViews($firstHourViewsAmount);
