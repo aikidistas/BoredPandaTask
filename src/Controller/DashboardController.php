@@ -32,13 +32,25 @@ class DashboardController extends Controller
         //      TODO: select video.firstHourViews where video.channel_id = ''
         // TODO: add autocomplete tag in form
 
-        $videos = array();
+        list($form, $videos) = $this->handleFilterForm($request);
 
+        return $this->render('dashboard.html.twig', array(
+            'videos' => $videos,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    protected function handleFilterForm(Request $request): array
+    {
         $form = $this->createFormBuilder(array())
             ->add('tag', TextType::class, array(
                 'required' => false
             ))
-//            ->add('video_performance', NumberType::class)
+            ->add('video_performance', NumberType::class)
             ->add('submitFilter', SubmitType::class, array('label' => 'Filter videos'))
             ->getForm();
 
@@ -54,10 +66,6 @@ class DashboardController extends Controller
                 ->getRepository(Video::class)
                 ->findAll();
         }
-
-        return $this->render('dashboard.html.twig', array(
-            'videos' => $videos,
-            'form' => $form->createView(),
-        ));
+        return array($form, $videos);
     }
 }

@@ -25,6 +25,7 @@
                 <span><a href="http://youtube.com/watch?v={{ video.id }}">{{ video.title }}</a></span>
                 <div>Likes: {{ video.versionedLikes.last.amount }}</div>
                 <div>Views: {{ video.versionedViews.last.amount }}</div>
+                <div>First hour views: {{ video.firstHourViews }}</div>
                 <div>Channel: {{ video.channel.title }}</div>
                 <div>Tags:
                     {% for tag in video.tags %}
