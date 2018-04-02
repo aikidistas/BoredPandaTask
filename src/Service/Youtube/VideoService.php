@@ -59,9 +59,7 @@ class VideoService
      */
     public function getUpdatedVideoEntity(Video $video) : Video
     {
-        if (is_null($this->videoId)) {
-            $this->setVideoId($video->getId());
-        }
+        $this->setVideoId($video->getId());
 
         $video->setTitle($this->getTitle());
 

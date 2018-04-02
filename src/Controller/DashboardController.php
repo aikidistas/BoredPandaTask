@@ -26,11 +26,15 @@ class DashboardController extends Controller
         // +: add video watched amount
         // +: add video title
         // TODO: add performance filter
+        //      +: add video.firstHourViews
+        //      +: update video.firstHourViews when adding versionedView this view time diff is less or equal to one hour.
+        //      TODO: first hour views divided by channels all videos first hour views median
+        //      TODO: select video.firstHourViews where video.channel_id = ''
         // TODO: add autocomplete tag in form
 
         $videos = array();
 
-        $form = $this->createFormBuilder(array('tag'=>'top'))
+        $form = $this->createFormBuilder(array())
             ->add('tag', TextType::class, array(
                 'required' => false
             ))

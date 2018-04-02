@@ -44,6 +44,11 @@ class Video
      */
     private $title;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $firstHourViews;
+
     public function __construct(string $id = null)
     {
         if (isset($id)) {
@@ -51,6 +56,7 @@ class Video
         }
         $this->tags = new ArrayCollection();
         $this->versionedLikes = new ArrayCollection();
+        $this->versionedViews = new ArrayCollection();
     }
 
     public function getId()
@@ -133,7 +139,7 @@ class Video
     }
 
     /**
-     * @return Collection|VersionedLike[]
+     * @return Collection|VersionedView[]
      */
     public function getVersionedViews(): Collection
     {
@@ -142,9 +148,20 @@ class Video
 
     public function addVersionedView(VersionedView $view): self
     {
-        if (!$this->versionedLikes->contains($view)) {
+        if (!$this->versionedViews->contains($view)) {
             $this->versionedViews[] = $view;
             $view->setVideo($this);
+        }
+
+        /* @var $firstView VersionedView*/
+        $firstView = $this->versionedViews->first();
+        /* @var $lastView VersionedView*/
+        $lastView = $view;
+        $timeDiff = $firstView->getDateTime()->diff($lastView->getDateTime());
+        if ($timeDiff->y === 0 and $timeDiff->m === 0 and $timeDiff->d === 0 and
+            ($timeDiff->h < 1 or ($timeDiff->h = 1 and $timeDiff->m <= 1)))
+        {
+            $this->setFirstHourViews($view->getAmount());
         }
 
         return $this;
@@ -171,6 +188,18 @@ class Video
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getFirstHourViews(): ?int
+    {
+        return $this->firstHourViews;
+    }
+
+    private function setFirstHourViews(int $firstHourViews): self
+    {
+        $this->firstHourViews = $firstHourViews;
 
         return $this;
     }

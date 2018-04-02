@@ -46,8 +46,7 @@ Good Luck :)
 
 **Notes**
 
-**TODO: remove files from bin folder, that will be installed by composer**
-
 1. Asumed that only uploaded videos in the channel need to be scraped. Possible to add also other playlists in the channel. Should be implemented separately.
+2. Video first hour performance can't be determined for already existing in youtube videos. For these videos assumption is made that first hour starts when we see the video with our scraper first time.
 
 
