@@ -20,12 +20,16 @@
     <h2>Youtube dashboard</h2>
     <div>{{ form(form) }}</div>
     <div>
+        {% if videos|length == 0 %}
+            <span>No videos found for specified filter. Update your filter to include more results...</span>
+        {% endif %}
         {% for video in videos %}
             <li>
                 <span><a href="http://youtube.com/watch?v={{ video.id }}">{{ video.title }}</a></span>
                 <div>Likes: {{ video.versionedLikes.last.amount }}</div>
                 <div>Views: {{ video.versionedViews.last.amount }}</div>
                 <div>First hour views: {{ video.firstHourViews }}</div>
+                <div>Video performance: {{ video.performance }}</div>
                 <div>Channel: {{ video.channel.title }}</div>
                 <div>Tags:
                     {% for tag in video.tags %}

@@ -33,20 +33,30 @@ class VideoRepository extends ServiceEntityRepository
         ;
     }
 
-    public function selectAllFirstHourViewsByChannel(string $channelId)
+    /**
+     * @return Video[] Returns an array of Video objects
+     */
+    public function findByTagAndPerformance($tag = null, $performance = null)
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $query = $this->createQueryBuilder('v');
 
-        $sql = '
-        SELECT first_hour_views FROM video v
-        WHERE p.channel_id = :channel_id
-        ORDER BY v.first_hour_views ASC
-        ';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['channel_id' => $channelId]);
+        if (!is_null($tag)) {
+            $query
+                ->innerJoin('v.tags', 't')
+                ->andWhere('t.text = :tag')
+                ->setParameter('tag', $tag);
+        }
 
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
+        if (!is_null($performance)) {
+            $query
+                ->andWhere('v.performance >= :performance')
+                ->setParameter('performance', $performance);
+        }
+
+        return $query
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     public function selectChannelFirstHourViewsMedian(string $channelId)

@@ -43,6 +43,8 @@ Good Luck :)
 **Usage instructions. Scraper command**
 1. `bin/console app:scrape-channel CHANNEL_ID_HERE`\
 1.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
+2. Run command to update all channels video performance statistics `bin/console app:video-perfrmance`
+
 
 **Notes**
 

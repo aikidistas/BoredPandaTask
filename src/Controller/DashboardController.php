@@ -21,15 +21,6 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        // +: list videos
-        // +: add form to filter videos
-        // +: add video watched amount
-        // +: add video title
-        // TODO: add performance filter
-        //      +: add video.firstHourViews
-        //      +: update video.firstHourViews when adding versionedView this view time diff is less or equal to one hour.
-        //      TODO: first hour views divided by channels all videos first hour views median
-        //      TODO: select video.firstHourViews where video.channel_id = ''
         // TODO: add autocomplete tag in form
 
         list($form, $videos) = $this->handleFilterForm($request);
@@ -50,17 +41,19 @@ class DashboardController extends Controller
             ->add('tag', TextType::class, array(
                 'required' => false
             ))
-            ->add('video_performance', NumberType::class)
+            ->add('video_performance', NumberType::class, array(
+                'required' => false
+            ))
             ->add('submitFilter', SubmitType::class, array('label' => 'Filter videos'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->getData()['tag'] !== null) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $videos = $this->getDoctrine()
                 ->getRepository(Video::class)
-                ->findByTag($data['tag']);
+                ->findByTagAndPerformance($data['tag'], $data['video_performance']);
         } else {
             $videos = $this->getDoctrine()
                 ->getRepository(Video::class)
