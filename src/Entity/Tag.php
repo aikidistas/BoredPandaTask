@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,10 +24,15 @@ class Tag
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Video", inversedBy="tags")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Video", mappedBy="tags")
      */
-    private $video;
+    private $videos;
+
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+    }
+
 
     public function getId()
     {
@@ -44,14 +51,30 @@ class Tag
         return $this;
     }
 
-    public function getVideo(): ?Video
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
     {
-        return $this->video;
+        return $this->videos;
     }
 
-    public function setVideo(?Video $video): self
+    public function addVideo(Video $video): self
     {
-        $this->video = $video;
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            $video->removeTag($this);
+        }
 
         return $this;
     }

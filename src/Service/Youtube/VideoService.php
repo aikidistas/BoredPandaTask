@@ -6,6 +6,7 @@ use App\Entity\Tag;
 use App\Entity\VersionedLike;
 use App\Entity\VersionedView;
 use App\Entity\Video;
+use App\Repository\TagRepository;
 use Google_Service_YouTube;
 use Google_Service_YouTube_VideoListResponse;
 use App\Exception\YoutubeNotFoundException;
@@ -17,12 +18,13 @@ class VideoService
 {
     protected $service;
     protected $videoId = null;
-
     protected $response = null;
+    protected $tagRepository;
 
-    public function __construct(Google_Service_YouTube $service)
+    public function __construct(Google_Service_YouTube $service, TagRepository $tagRepository)
     {
         $this->service = $service;
+        $this->tagRepository = $tagRepository;
     }
 
     public function setVideoId($videoId)
@@ -45,8 +47,11 @@ class VideoService
 
         $tags = $this->getTags();
         foreach ($tags as $tagText) {
-            $tag = new Tag();
-            $tag->setText($tagText);
+            $tag = $this->tagRepository->findOneBy(array('text' => $tagText));
+            if (!$tag instanceof Tag) {
+                $tag = new Tag();
+                $tag->setText($tagText);
+            }
             $video->addTag($tag);
         }
 
@@ -62,6 +67,16 @@ class VideoService
         $this->setVideoId($video->getId());
 
         $video->setTitle($this->getTitle());
+
+        $tags = $this->getTags();
+        foreach ($tags as $tagText) {
+            $tag = $this->tagRepository->findOneBy(array('text' => $tagText));
+            if (!$tag instanceof Tag) {
+                $tag = new Tag();
+                $tag->setText($tagText);
+            }
+            $video->addTag($tag);
+        }
 
         $like = new VersionedLike();
         $like->setDateTime(new DateTime());

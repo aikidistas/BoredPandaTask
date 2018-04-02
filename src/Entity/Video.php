@@ -25,11 +25,6 @@ class Video
     private $channel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="video", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $tags;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\VersionedLike", mappedBy="video", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $versionedLikes;
@@ -54,6 +49,11 @@ class Video
      */
     private $performance;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="videos", cascade={"persist", "remove"})
+     */
+    private $tags;
+
     public function __construct(string $id = null)
     {
         if (isset($id)) {
@@ -77,37 +77,6 @@ class Video
     public function setChannel(?Channel $channel): self
     {
         $this->channel = $channel;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Tag[]
-     */
-    public function getTags(): Collection
-    {
-        return $this->tags;
-    }
-
-    public function addTag(Tag $tag): self
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-            $tag->setVideo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTag(Tag $tag): self
-    {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
-            // set the owning side to null (unless already changed)
-            if ($tag->getVideo() === $this) {
-                $tag->setVideo(null);
-            }
-        }
 
         return $this;
     }
@@ -218,6 +187,34 @@ class Video
     public function setPerformance(?float $performance): self
     {
         $this->performance = $performance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addVideo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            $tag->removeVideo($this);
+        }
 
         return $this;
     }
