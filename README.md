@@ -40,7 +40,10 @@ Good Luck :)
 4.4 Look code coverage in the browser`coverage/index.html`
 5. Run web server for development using: `bin/console server:run`
 
-**Usage instructions. Scraper command**
+**Usage instructions. Scraper commands**\
+Add these commands to your servers cron job and schedule it to run every N minutes. Choose N as you like.\
+Note: you can stack these commands to one cron job by using syntax: `command1 && command2 && command3`
+
 1. `bin/console app:scrape-channel CHANNEL_ID_HERE`\
 1.1 Example: `bin/console app:scrape-channel UCydKucK3zAWRuHKbB4nJjtw`
 2. Run command to update all channels video performance statistics `bin/console app:video-perfrmance`
