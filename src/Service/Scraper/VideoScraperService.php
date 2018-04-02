@@ -42,14 +42,16 @@ class VideoScraperService
         if ($video instanceof Video) {
             // video was already downloaded from youtube earlier. Need to update video statistics
             $video = $this->videoService->getUpdatedVideoEntity($video);
-
-            return $video;
+        } else {
+            // download new video
+            $this->videoService->setVideoId($videoId);
+            $video = $this->videoService->getVideoEntity();
+            $channel->addUploadedVideo($video);
         }
 
-        // download new video
-        $this->videoService->setVideoId($videoId);
-        $video = $this->videoService->getVideoEntity();
-        $channel->addUploadedVideo($video);
+
+        $this->entityManager->persist($video);
+        $this->entityManager->flush();
 
         return $video;
     }
