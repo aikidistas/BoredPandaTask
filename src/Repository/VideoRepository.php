@@ -32,4 +32,53 @@ class VideoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function selectAllFirstHourViewsByChannel(string $channelId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT first_hour_views FROM video v
+        WHERE p.channel_id = :channel_id
+        ORDER BY v.first_hour_views ASC
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['channel_id' => $channelId]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
+
+    public function selectChannelFirstHourViewsMedian(string $channelId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT AVG(t1.first_hour_views) as median_val FROM (
+                    SELECT @rownum:=@rownum+1 AS `row_number`, v.first_hour_views
+                    FROM video v,  (SELECT @rownum:=0) r
+                    WHERE
+                        v.channel_id = :channel_id -- put some where clause here
+                    ORDER BY v.first_hour_views
+                ) AS t1, 
+                (
+                    SELECT count(*) AS total_rows
+                    FROM video v
+                    WHERE
+                        v.channel_id = :channel_id -- put same where clause here
+                ) AS t2
+                WHERE 1
+                AND t1.row_number in ( floor((total_rows+1)/2), floor((total_rows+2)/2) );
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['channel_id' => $channelId]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        $result = $stmt->fetchAll();
+
+        if (sizeof($result) > 0 && sizeof($result[0]) > 0) {
+            return $result[0]['median_val'];
+        }
+
+        return 0;
+    }
 }
