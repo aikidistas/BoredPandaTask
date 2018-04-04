@@ -34,10 +34,9 @@ Good Luck :)
 3.2 Create database specified in `.env` by running: `php bin/console doctrine:database:create`\
 3.3 Create tables and demo data by running: `php bin/console doctrine:migrations:migrate`
 4. Tests:\
-4.1 Run BDD (behat) tests using: `bin/behat`\
-4.2 Run phpUnit tests using: `bin/simple-phpunit`\
-4.3 Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
-4.4 Look code coverage in the browser`coverage/index.html`
+4.1 Run phpUnit tests using: `bin/simple-phpunit`\
+4.2 Generate phpUnit code coverage: `bin/simple-phpunit --coverage-html=coverage`\
+4.3 Look code coverage in the browser`coverage/index.html`
 5. Run web server for development using: `bin/console server:run`
 
 **Usage instructions. Scraper commands**\
