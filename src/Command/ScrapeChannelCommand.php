@@ -41,8 +41,6 @@ class ScrapeChannelCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // FIXME: check that video performance is only updated during first hour!
-
         $channelId = $input->getArgument("channelId");
         $output->writeln("Downloading videos statistics from channel ID: " . $channelId);
 
