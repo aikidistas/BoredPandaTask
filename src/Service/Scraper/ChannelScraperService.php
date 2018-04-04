@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nerijus
- * Date: 3/25/2018
- * Time: 1:16 AM
- */
 
 namespace App\Service\Scraper;
 

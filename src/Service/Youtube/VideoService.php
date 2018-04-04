@@ -45,16 +45,6 @@ class VideoService
 
         $video = new Video($this->videoId);
 
-        $tags = $this->getTags();
-        foreach ($tags as $tagText) {
-            $tag = $this->tagRepository->findOneBy(array('text' => $tagText));
-            if (!$tag instanceof Tag) {
-                $tag = new Tag();
-                $tag->setText($tagText);
-            }
-            $video->addTag($tag);
-        }
-
         return $this->getUpdatedVideoEntity($video);
     }
 

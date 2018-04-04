@@ -3,10 +3,6 @@ namespace App\Command;
 
 use App\Exception\YoutubeNotFoundException;
 use App\Service\Scraper\ChannelScraperService;
-use App\Service\Scraper\VideoScraperService;
-use App\Service\Youtube\ChannelService;
-use App\Service\Youtube\PlaylistItemsService;
-use App\Service\Youtube\VideoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,14 +11,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ScrapeChannelCommand extends Command
 {
     protected $channelScraperService;
-    protected $videoScraperService;
 
-    public function __construct(ChannelScraperService $channelScraperService, VideoScraperService $videoScraperService)
+    public function __construct(ChannelScraperService $channelScraperService)
     {
         parent::__construct();
 
         $this->channelScraperService = $channelScraperService;
-        $this->videoScraperService = $videoScraperService;
     }
 
     protected function configure()
