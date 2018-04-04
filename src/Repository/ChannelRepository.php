@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Channel|null findOneBy(array $criteria, array $orderBy = null)
  * @method Channel[]    findAll()
  * @method Channel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @codeCoverageIgnore
  */
 class ChannelRepository extends ServiceEntityRepository
 {

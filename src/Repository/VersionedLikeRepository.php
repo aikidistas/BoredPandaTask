@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method VersionedLike|null findOneBy(array $criteria, array $orderBy = null)
  * @method VersionedLike[]    findAll()
  * @method VersionedLike[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @codeCoverageIgnore
  */
 class VersionedLikeRepository extends ServiceEntityRepository
 {

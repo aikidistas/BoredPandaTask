@@ -173,7 +173,7 @@ class Video
         return $this->firstHourViews;
     }
 
-    private function setFirstHourViews(int $firstHourViews): self
+    public function setFirstHourViews(int $firstHourViews): self
     {
         $this->firstHourViews = $firstHourViews;
 
