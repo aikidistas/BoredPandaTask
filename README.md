@@ -1,4 +1,4 @@
-**BoredPanda interview task 2018-03**
+**Youtube statistics downloader**
 
 **Requirements**
 
@@ -23,8 +23,7 @@ PHP or Python; (You can use framework if needed)
 MySQL; (If you use ORM, please write at least 1 plain SQL query)
 MVC structure;
 GitHub;
-After finishing task, please send us the GitHub repository link.
-Good Luck :)
+
 
 **Set Up instructions**
 1. Create `.env_ file using _.env.dist`
